@@ -1,4 +1,5 @@
 # 5. 구성과 입력
+
 이번 챕터를 통해 다음 내용을 배울 수 있습니다.
 
 1. CPython 인터프리터의 빌드부터 파이썬 코드 실행까지의 과정에 대한 코드 레벨의 이해
@@ -234,6 +235,7 @@ Configuration of the runtime은 세 부분으로 나뉘어 있습니다. ([PEP 5
 - [2] LC_CTYPE 로캘(locale)을 system 또는 user-preferred 로캘로 설정하기
     > ⭐ **로캘(Locale)이란?**  
     > - 특정 지역, 국가, 또는 문화권에서 사용하는 언어, 통화, 날짜 및 시간 형식과 같은 **지역 설정**을 의미함.  
+
     > - 로캘의 정보는 일반적으로 **언어 코드**와 **국가/지역 코드의 조합**으로 표현된다. (ex> **`en-US`**는 미국 영어, **`ko-KR`**은 대한민국 한국어를 나타냄)
 - [3] UTF-8 모드 설정하기 ([PEP 540](https://peps.python.org/pep-0540/))
     > ⭐ **인코딩**
@@ -394,7 +396,6 @@ Configuration의 두 번째 단계는 **runtime configuration**이다. `PyConfig
     ```
 
     </details>
-    
 - Environment variables for runtime settings
 
 ### Setting Runtime Configuration with the Command Line
@@ -422,13 +423,11 @@ import zipimport # builtin
 모든 `PyConfig` 값에는 같은 순서와 우선순위가 적용됩니다.
 ![](../images/5_config_and_input/config.png)
 
-
 ### Viewing Runtime Flags
 
 CPython 인터프리터는 많은 runtime flags가 있습니다. 플래그는 CPython의 특정 동작을 제어하는데 사용되는 고급 기능이다. 파이썬 세션 중에, `sys.flags` 네임드 튜플을 통해 runtime flags에 접근할 수 있습니다.
 
 - 플래그 사용 X
-    
     ```bash
     ./python.exe
     
@@ -438,7 +437,7 @@ CPython 인터프리터는 많은 runtime flags가 있습니다. 플래그는 CP
     >>> import sys; sys.flags
     sys.flags(debug=0, inspect=0, interactive=0, optimize=0, dont_write_bytecode=0, no_user_site=0, no_site=0, ignore_environment=0, verbose=0, bytes_warning=0, quiet=0, hash_randomization=1, isolated=0, dev_mode=False, utf8_mode=0, int_max_str_digits=-1)
     ```
-    
+
 - -X dev 플래그 사용
     
     ```bash
@@ -453,7 +452,7 @@ CPython 인터프리터는 많은 runtime flags가 있습니다. 플래그는 CP
     
     - `dev_mode`가 `True`로 변경됨.
 - -X dev -X utf8 플래그 사용
-    
+
     ```bash
     ./python.exe -X dev -X utf8
     
@@ -463,19 +462,23 @@ CPython 인터프리터는 많은 runtime flags가 있습니다. 플래그는 CP
     >>> import sys; sys.flags
     sys.flags(debug=0, inspect=0, interactive=0, optimize=0, dont_write_bytecode=0, no_user_site=0, no_site=0, ignore_environment=0, verbose=0, bytes_warning=0, quiet=0, hash_randomization=1, isolated=0, dev_mode=True, utf8_mode=1, int_max_str_digits=-1)
     ```
+
     
     - `utf8_mode`가 `1`로 변경됨.
 - -X dev -q 플래그 사용
     
+
     ```bash
     ./python.exe -X dev -q
     
     >>> import sys; sys.flags
     sys.flags(debug=0, inspect=0, interactive=0, optimize=0, dont_write_bytecode=0, no_user_site=0, no_site=0, ignore_environment=0, verbose=0, bytes_warning=0, quiet=1, hash_randomization=1, isolated=0, dev_mode=True, utf8_mode=0, int_max_str_digits=-1)
     ```
+
     
     - `-q` (=quiet) 모드라서 파이썬 버전이 출력되지 않음.
     - `quiet`이 `1`로 변경됨.
+
 
 ## 5.2 Build Configuration (빌드 구성)
 
@@ -484,7 +487,7 @@ CPython 인터프리터는 많은 runtime flags가 있습니다. 플래그는 CP
 다음 명령어로 build configuration을 확인할 수 있습니다.
 
 - `./python.exe -m sysconfig`
-    
+
     ```bash
     Platform: "macosx-14.4-arm64"
     Python version: "3.9"
@@ -509,6 +512,7 @@ CPython 인터프리터는 많은 runtime flags가 있습니다. 플래그는 CP
     ```
     
 
+
 build configuration은 5가지의 key로 구성되어 있습니다.
 
 - Platform
@@ -518,7 +522,7 @@ build configuration은 5가지의 key로 구성되어 있습니다.
 - Variables
 
 - (참고) CPython을 컴파일 하는 과정 중, `./configure` 스크립트를 실행할 때 포함시켰던 옵션들을 확인할 수 있습니다. `CPPFLAGS`, `LDFLAGS`는 build configuration의 Variables에 포함되어 있습니다.
-    
+
     ```bash
     ...
     CONFIGURE_CPPFLAGS = "-I/opt/homebrew/opt/zlib/include -I/opt/homebrew/opt/xz/include"
@@ -526,6 +530,7 @@ build configuration은 5가지의 key로 구성되어 있습니다.
     CONFIGURE_LDFLAGS = "-L/opt/homebrew/opt/zlib/lib -L/opt/homebrew/opt/xz/lib"
     ...
     ```
+
     
     - (참고) `error: 'lzma.h' file not found` 에러로 인해 `./configure` 스크립트를 실행할 때, `xz` 라이브러리를 추가하고 빌드했기 때문에 `xz` 라이브러리에 대한 경로가 포함되어 있습니다.
     - 사용했던 스크립트
@@ -539,31 +544,37 @@ build configuration은 5가지의 key로 구성되어 있습니다.
         # 빌드
         make -j2 -s
         ```
-        
+     
 
 Build configuration 항목들은 컴파일 시에(=CPython Interpreter 생성할 때) 결정되는 값으로, 바이너리에 링크할 추가 모듈 선택에 사용됩니다. 예를 들어 디버거와 계측(instrumentation) 라이브러리, 메모리 할당자는 모두 컴파일 시 결정됩니다.
 
 세 단계의 구성(Build Configuration, PyPreConfig, PyConfig)을 모두 완료하면, CPython Interpreter는 입력된 텍스트를 코드로 실행할 수 있게 됩니다.
 
 ## 5.3 입력에서 모듈 만들기
+
 ![](../images/5_config_and_input/input.png)
 
 코드를 실행하려면 먼저 입력을 모듈로 컴파일해야 합니다.
 
 - 입력방식
+
     - 로컬 파일과 패키지
     - 메모리 파이프나 stdin 같은 I/O 스트림
     - 문자열
 
+
 이렇게 읽어 들인 입력은 파서를 거쳐 컴파일러로 전달 됩니다. 이렇게 유연한 입력 방식을 제공하기 위해 CPython은 CPython 소스 코드의 상당 분량을 파서의 입력 처리에 사용합니다.
 
 ### 연관된 소스 파일 목록
+
+
 - Lib > runpy.py : 파이썬 모듈을 임포트 하고 실행하는 표준 라이브러리 모듈
 - Modules > main.c : 파일이나 모듈, 입력 스트림 같은 외부 코드 실행을 감싸는 함수
 - Programs > python.c : 윈도우나, 리눅스, macOS에서 Python의 진입점. 위의 `main.c` 를 감싸는 역할만 맡음.
 - Python > pythonrun.c : 명령줄 입력을 처리하는 내부 C API를 감싸는 함수
 
 ### 입력과 파일 읽기
+
 1. CPython은 런타임 구성과 명령줄 인자가 준비되면 실행할 코드를 불러옵니다.
     - 이 작업은 `Modules > main.c > pymain_main()` 에서 실행됩니다.
     - CPython은 어떤 파이썬 코드를 실행할지 결정하고 이 코드를 메모리에 로드합니다.
@@ -573,6 +584,7 @@ Build configuration 항목들은 컴파일 시에(=CPython Interpreter 생성할
 ### 명령줄 문자열 입력
 
 > ⭐ **-c 옵션을 사용해 명령줄에서 파이썬 애플리케이션을 실행하는 경우**
+
 > - python -c “print(2 ** 2)”
 - Modules > main.c > pymain_run_command()
     
@@ -609,11 +621,13 @@ Build configuration 항목들은 컴파일 시에(=CPython Interpreter 생성할
     
     ```
     
+
 1. Modules > main.c에서 pymain_run_command()가 실행되며 -c로 전달된 명령은 C의 wchar_t* 타입 인자로 함수에 전달됩니다.
     - wchar_t* 타입은 UTF-8 문자를 저장할 수 있기 때문에 CPython에서 저수준 유니코드 데이터를 저장하는 타입으로 사용됩니다.
 2. PyUnicode_FromWideChar()를 이용해 wchar_t*를 파이썬 유니코드 문자열 객체로 변환할 수 있습니다.
 3. pymain_run_command()는 파이썬 바이트열 객체를 PyRun_SimpleStringFlags()로 넘겨서 실행합니다.
 4. PyRun_SimpleStringFlags()는 문자열을 **파이썬 모듈**로 변환하고 실행합니다.
+
 5. 파이썬 모듈을 독립된 모듈로 실행하려면 __main__ 진입점이 필요하기 때문에 PyRun_SimpleStringFlags()가 진입점을 자동으로 추가합니다.
 6. 또한 PyRun_SimpleStringFlags()는 가짜 파일 이름을 만들고 파이썬 파서를 실행해서, 문자열에서 추상 구문 트리(abstract syntax tree, AST)를 생성해 모듈로 반환한다. 
 
@@ -712,11 +726,12 @@ Build configuration 항목들은 컴파일 시에(=CPython Interpreter 생성할
         # )
         ```
         
+
 2. runpy를 임포트하고 PyObject_Call()로 해당 모듈을 실행합니다. runpy 모듈은 Lib > runpy.py에 위치한 순수한 파이썬 모듈입니다.
     - `python -m <module>`을 실행하는 것은 `python -m runpy <module>`을 실행하는 것과 같습니다.
     - Lib > runpy.py
         - sys.argv[0]은 스크립트의 이름, sys.argv[1]은 모듈 이름이 들어갑니다.
-        
+
         ```python
         if __name__ == "__main__":
             # Run the module specified as the next command line argument
@@ -726,17 +741,17 @@ Build configuration 항목들은 컴파일 시에(=CPython Interpreter 생성할
                 del sys.argv[0] # Make the requested module sys.argv[0]
                 _run_module_as_main(sys.argv[0])
         ```
-        
+
 3. runpy는 세 단계로 모듈을 실행합니다.
     1. 제공된 모듈 이름을 __import__()로 임포트 합니다.
         - __import__() 함수는 파이썬의 내장 함수 중 하나입니다. 함수는 모듈을 동적으로 로드하고, 모듈 객체를 반환합니다.
-            
+
             ```python
             mod_name = 'math'
             mod = __import__(mod_name)
             print(mod.sqrt(16))
             ```
-            
+    
     2. __name__ (모듈 이름)을 __main__ 이름 공간에 설정합니다.
     3. __main__ 이름 공간에서 모듈을 실행합니다.
 
@@ -908,11 +923,14 @@ Build configuration 항목들은 컴파일 시에(=CPython Interpreter 생성할
         
         ```
         
+
 1. Python > pythonrun.c의 PyRun_SimpleFileExFlags()를 호출합니다.
 2. PyRun_SimpleFileExFlags()
     - .pyc 파일 경로면 run_pyc_file()을 호출합니다.
     - 스크립트 파일(.py) 경로면 PyRun_FileExFlags()를 호출합니다.
+
     - <command> | python처럼 파일 경로가 stdin이면 stdin을 파일 핸들로 취급하고 PyRun_FileExFlags()를 호출합니다.
+
 3. PyRun_FileExFlags()는 파일에서 파이썬 모듈을 생성하고 run_mod()로 보내 실행합니다.
 
 ### 컴파일된 바이트 코드 입력
@@ -926,6 +944,7 @@ Build configuration 항목들은 컴파일 시에(=CPython Interpreter 생성할
 ## References
 
 - CPython 파헤치기 내용 정리 블로그
+
     - [https://velog.io/@1eejuhwany/나도-CPython-파헤치기3](https://velog.io/@1eejuhwany/%EB%82%98%EB%8F%84-CPython-%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B03)
 - 파이썬 모듈
     - [https://docs.python.org/3.9/tutorial/modules.html](https://docs.python.org/3.9/tutorial/modules.html)
